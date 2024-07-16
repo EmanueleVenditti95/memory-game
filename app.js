@@ -1,17 +1,35 @@
 //DATA
 const app = document.getElementById('app');
 const images = [
-    "./images/alien.png",
-    "./images/bug.png",
-    "./images/duck.png",
-    "./images/rocket.png",
-    "./images/spaceship.png",
-    "./images/tiktac.png"
+    {
+        nome : "alien",
+        link : "./images/alien.png"
+    },
+    {
+        nome : "bug",
+        link : "./images/bug.png"
+    },
+    {
+        nome : "rocket",
+        link : "./images/rocket.png"
+    },
+    {
+        nome : "spaceship",
+        link : "./images/spaceship.png"
+    },
+    {
+        nome : "duck",
+        link : "./images/duck.png"
+    },
+    {
+        nome : "tiktac",
+        link : "./images/tiktac.png"
+    }
 ]
+
 
 //APP
 populateGrid(shuffle(doubleArray(images)));
-
 
 
 //FUNCTIONS
@@ -34,14 +52,25 @@ function shuffle(array) {
 }
 
 function populateGrid(array) {
-    for(i=0; i<array.length; i++) {
-        let src = array[i];
+    for(let i=0; i<array.length; i++) {
+        let src = array[i].link;
+
+        let div = document.createElement("div");
+        div.classList.add('hidden','card');
+
         let img = document.createElement("img");
         img.src = src;
-        app.append(img);
-    }  
 
+        div.appendChild(img);
+
+        div.addEventListener("click",function () {
+            console.log(div);
+            div.classList.toggle('hidden');
+        });
+        app.append(div);
+    }  
 }
+
 
 
 
