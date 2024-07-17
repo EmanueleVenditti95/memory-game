@@ -2,34 +2,36 @@
 const app = document.getElementById('app');
 const images = [
     {
-        nome : "alien",
+        name : "alien",
         link : "./images/alien.png"
     },
     {
-        nome : "bug",
+        name : "bug",
         link : "./images/bug.png"
     },
     {
-        nome : "rocket",
+        name : "rocket",
         link : "./images/rocket.png"
     },
     {
-        nome : "spaceship",
+        name : "spaceship",
         link : "./images/spaceship.png"
     },
     {
-        nome : "duck",
+        name : "duck",
         link : "./images/duck.png"
     },
     {
-        nome : "tiktac",
+        name : "tiktac",
         link : "./images/tiktac.png"
     }
 ]
+let tempArr = [];
+
 
 
 //APP
-populateGrid(shuffle(doubleArray(images)));
+startGame(shuffle(doubleArray(images)));
 
 
 //FUNCTIONS
@@ -44,14 +46,13 @@ function doubleArray(array) {
 
 function shuffle(array) {
     for(i = 0; i < array.length; i++) {
-        const indexFrom = i;
         const indexTo = Math.floor(Math.random() * array.length);
-        [array[indexFrom], array[indexTo]] = [array[indexTo], array[indexFrom]];
+        [array[i], array[indexTo]] = [array[indexTo], array[i]];
     }
     return array;
 }
 
-function populateGrid(array) {
+function startGame(array) {
     for(let i=0; i<array.length; i++) {
         let src = array[i].link;
 
@@ -63,14 +64,39 @@ function populateGrid(array) {
 
         div.appendChild(img);
 
-        div.addEventListener("click",function () {
-            console.log(div);
-            div.classList.toggle('hidden');
-        });
+        div.addEventListener("click", () => select(array[i], div));
+
         app.append(div);
     }  
 }
 
 
+function select(image, element) {
+    if (element.classList.contains('hidden')) {
+        element.classList.remove('hidden');
+        tempArr.push({ img: image, el: element });
+        console.log(image.name);
+        
+        if (tempArr.length === 2) {
+            console.log(tempArr);
+            checkMatch();
+        }
+    }
+}
 
+function checkMatch() {
+    if (tempArr[0].img.name === tempArr[1].img.name) {
+        console.log('bravoh!');
+        tempArr = [];
+    } else {
+        setTimeout(() => {
+            console.log( tempArr);
+            tempArr[0].el.classList.toggle('hidden');
+            tempArr[1].el.classList.toggle('hidden');
+            tempArr = [];
+        }, 500);
+        console.log('sbagliato');
+    }
+    
+}
 
